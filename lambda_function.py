@@ -66,8 +66,8 @@ def lambda_handler(event, context):
     tab = file_name.split('.')[0]
     if file_extension == '.xml':
         print(f"it is xml and file: {file_name} and table name is: {tab}")
-    # if tab == "property_data":
-    #     property_data(tab, file_name)
+    if tab == "property_data":
+        property_data(tab, file_name)
     # if tab == "book_data":
     #     book_data(tab, file_name)
     # if tab == "Shapes":
