@@ -75,7 +75,7 @@ def lambda_handler(event, context):
 
 
 def property_data(tab_name, file):
-    print("we are in property_data.....")
+    print("we are in property_data function.....")
     paginator = s3_client.get_paginator('list_objects_v2')
     result = paginator.paginate(
         Bucket='work-sample-us-east-1',
@@ -104,6 +104,6 @@ def property_data(tab_name, file):
     property_df.columns = cols  # Update column names
     print(property_df)
     table = dynamodb.Table(tab_name)
-    with table.batch_writer(overwrite_by_pkeys=["house_type", "property_id"]) as bw:
+    with table.batch_writer(overwrite_by_pkeys=['house_type', 'property_id']) as bw:
             for record in property_df.to_dict("records"):
                 bw.put_item(Item=record)
