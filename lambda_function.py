@@ -68,8 +68,8 @@ def lambda_handler(event, context):
         print(f"it is xml and file: {file_name} and table name is: {tab}")
     if tab == "property_data":
         property_data(tab, file_name)
-    # if tab == "book_data":
-    #     book_data(tab, file_name)
+    if tab == "book_data":
+        book_data(tab, file_name)
     # if tab == "Shapes":
     #     shape_data(tab, file_name)
 
