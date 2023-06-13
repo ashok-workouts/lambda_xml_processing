@@ -70,8 +70,8 @@ def lambda_handler(event, context):
         property_data(tab, file_name)
     if tab == "book_data":
         book_data(tab, file_name)
-    # if tab == "Shapes":
-    #     shape_data(tab, file_name)
+    if tab == "Shapes":
+        shape_data(tab, file_name)
 
 
 def property_data(tab_name, file):
