@@ -21,7 +21,8 @@ def get_latest_file(bucket_name, prefix):
     file = latest['Key'].split('/')[1]
     return file
 
-def property_data1(tab_name, file):
+def property_data(tab_name, file):
+    print("we are in property_data function.....")
     xml_data = open(file, 'r').read()  # Read file
     root = ET.XML(xml_data)  # Parse XML
     data = []
@@ -33,10 +34,14 @@ def property_data1(tab_name, file):
     property_df = pd.DataFrame(data).T  # Write in DF and transpose it
     property_df.columns = cols  # Update column names
     table = dynamodb.Table(tab_name)
-    with table.batch_writer(overwrite_by_pkeys=["house_type", "property_id"]) as bw:
+    try:
+        with table.batch_writer(overwrite_by_pkeys=["house_type", "property_id"]) as bw:
             for record in property_df.to_dict("records"):
                 bw.put_item(Item=record)
-
+        print("Data loaded to DynamoDB table successfull....")
+        print("Table updtaed....") 
+    except Exception as e:
+         print("Exception occurred...") 
 
 def book_data(tab, file):
     print("we are in book_data.....")
@@ -46,6 +51,7 @@ def book_data(tab, file):
     with table.batch_writer(overwrite_by_pkeys=["id", "author"]) as bw:
             for record in books_df.to_dict("records"):
                 bw.put_item(Item=record)
+    print("Data loaded to DynamoDB table successfull....")
 
 
 def shape_data(tab, file):
@@ -67,14 +73,14 @@ def lambda_handler(event, context):
     if file_extension == '.xml':
         print(f"it is xml and file: {file_name} and table name is: {tab}")
     if tab == "property_data":
-        property_data(tab, file_name)
+        property_data1(tab, file_name)
     if tab == "book_data":
         book_data(tab, file_name)
     if tab == "Shapes":
         shape_data(tab, file_name)
 
 
-def property_data(tab_name, file):
+def property_data1(tab_name, file):
     print("we are in property_data function.....")
     paginator = s3_client.get_paginator('list_objects_v2')
     result = paginator.paginate(
@@ -103,6 +109,7 @@ def property_data(tab_name, file):
     property_df = pd.DataFrame(data).T  # Write in DF and transpose it
     property_df.columns = cols  # Update column names
     print(property_df)
+    print("Data loaded to DynamoDB table successfull....")
     table = dynamodb.Table(tab_name)
     try:
         with table.batch_writer(overwrite_by_pkeys=['house_type', 'property_id']) as bw:
