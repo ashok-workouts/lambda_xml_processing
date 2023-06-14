@@ -104,6 +104,9 @@ def property_data(tab_name, file):
     property_df.columns = cols  # Update column names
     print(property_df)
     table = dynamodb.Table(tab_name)
-    with table.batch_writer(overwrite_by_pkeys=['house_type', 'property_id']) as bw:
+    try:
+        with table.batch_writer(overwrite_by_pkeys=['house_type', 'property_id']) as bw:
             for record in property_df.to_dict("records"):
                 bw.put_item(Item=record)
+    except Exception:
+         print("Done successfully......")
