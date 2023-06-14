@@ -108,5 +108,6 @@ def property_data(tab_name, file):
         with table.batch_writer(overwrite_by_pkeys=['house_type', 'property_id']) as bw:
             for record in property_df.to_dict("records"):
                 bw.put_item(Item=record)
+        print("Data loaded to DynamoDB table successfull....")        
     except Exception:
-         print("Done successfully......")
+         print("Table updtaed....") 
