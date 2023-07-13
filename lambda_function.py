@@ -118,6 +118,6 @@ def property_data1(tab_name, file):
             for record in property_df.to_dict("records"):
                 bw.put_item(Item=record)
         print("Data loaded to DynamoDB table successfull....")        
-    except Exception:
+    except Exception as e:
          print("------------")
          print("exception occurred........") 
