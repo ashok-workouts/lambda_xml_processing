@@ -43,6 +43,7 @@ def property_data(tab_name, file):
     except Exception as e:
          print("Exception occurred...: ", e) 
 
+
 def book_data(tab, file):
     print("we are in book_data.....")
     books_df = pd.read_xml('xml_files/books.xml', xpath=".//book")
@@ -51,7 +52,7 @@ def book_data(tab, file):
     with table.batch_writer(overwrite_by_pkeys=["id", "author"]) as bw:
             for record in books_df.to_dict("records"):
                 bw.put_item(Item=record)
-    print("Data loaded to DynamoDB table successfull....")
+    print("Data loaded to DynamoDB table successfully....")
 
 
 def shape_data(tab, file):
@@ -66,7 +67,7 @@ def shape_data(tab, file):
 
 
 def lambda_handler(event, context):
-    print("Lambda execution started.....")
+    print("Lambda execution started.....rom lambda")
     file_name = get_latest_file(bucket_name, prefix)
     file_extension = pathlib.Path(file_name).suffix
     tab = file_name.split('.')[0]
@@ -116,6 +117,6 @@ def property_data1(tab_name, file):
         with table.batch_writer(overwrite_by_pkeys=["shape", "degrees"]) as bw:
             for record in property_df.to_dict("records"):
                 bw.put_item(Item=record)
-        print("Data loaded to DynamoDB table successfull....")        
+        print("Data loaded to DynamoDB table successfully....")        
     except Exception as e:
         print("Table updtaed....")
