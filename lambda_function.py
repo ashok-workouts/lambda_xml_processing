@@ -66,7 +66,7 @@ def shape_data(tab, file):
 
 
 def lambda_handler(event, context):
-    print("Lambda execution started.............")
+    print("Lambda execution started.....")
     file_name = get_latest_file(bucket_name, prefix)
     file_extension = pathlib.Path(file_name).suffix
     tab = file_name.split('.')[0]
@@ -78,6 +78,7 @@ def lambda_handler(event, context):
         book_data(tab, file_name)
     if tab == "Shapes":
         shape_data(tab, file_name)
+
 
 
 def property_data1(tab_name, file):
@@ -117,4 +118,5 @@ def property_data1(tab_name, file):
                 bw.put_item(Item=record)
         print("Data loaded to DynamoDB table successfull....")        
     except Exception:
+         print("")
          print("Table updtaed....") 
