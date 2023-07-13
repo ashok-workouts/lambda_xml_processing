@@ -67,7 +67,7 @@ def shape_data(tab, file):
 
 
 def lambda_handler(event, context):
-    print("Lambda execution started.....rom lambda")
+    print("Lambda execution started from lambda.....")
     file_name = get_latest_file(bucket_name, prefix)
     file_extension = pathlib.Path(file_name).suffix
     tab = file_name.split('.')[0]
