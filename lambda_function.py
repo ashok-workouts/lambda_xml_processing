@@ -55,7 +55,7 @@ def book_data(tab, file):
 
 
 def shape_data(tab, file):
-    print("we are in shape_data.....")
+    print("we are in shape_data.......")
     shape_df = pd.read_xml('xml_files/shapes.xml', xpath="//doc:row", namespaces={"doc": "https://example.com"})
     shape_df['sides'] = shape_df['sides'].astype(int)
     print(shape_df)
