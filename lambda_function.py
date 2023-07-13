@@ -4,7 +4,7 @@ import pathlib
 
 import pandas as pd
 import xml.etree.ElementTree as ET
-import awswrangler as wr
+
 
 bucket_name = 'work-sample-us-east-1'
 prefix = 'data/'
@@ -41,7 +41,7 @@ def property_data(tab_name, file):
         print("Data loaded to DynamoDB table successfull....")
         print("Table updtaed....") 
     except Exception as e:
-         print("Exception occurred...") 
+         print("Exception occurred...: ", e) 
 
 def book_data(tab, file):
     print("we are in book_data.....")
@@ -113,12 +113,9 @@ def property_data1(tab_name, file):
     print("Data loaded to DynamoDB table successfull....")
     table = dynamodb.Table(tab_name)
     try:
-        wr.dynamodb.put_df(df=property_df, table_name=tab_name)
-        # with table.batch_writer(overwrite_by_pkeys=['house_type', 'property_id']) as bw:
-        # with table.batch_writer as bw:
-        #     for record in property_df.to_dict("records"):
-        #         bw.put_item(Item=record)
-        print("Data loaded to DynamoDB table successfull....yu")        
+        with table.batch_writer(overwrite_by_pkeys=["shape", "degrees"]) as bw:
+            for record in property_df.to_dict("records"):
+                bw.put_item(Item=record)
+        print("Data loaded to DynamoDB table successfull....")        
     except Exception as e:
-         print("------------")
-         print("exception occurred........err: ", e) 
+        print("Table updtaed....")
